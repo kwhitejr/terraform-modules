@@ -33,6 +33,8 @@ variable "methods" {
     method               = string
     lambda_arn           = string
     lambda_function_name = string
+    authorization_type   = string
+    authorizer_id        = string
   }))
 }
 variable "api_stage_name" {
