@@ -13,6 +13,7 @@ variable "application_name" {
 variable "description" {
   description = "Description for the API Gateway"
   type        = string
+  default     = ""
 }
 variable "service_domain" {
   description = "The service domain."
