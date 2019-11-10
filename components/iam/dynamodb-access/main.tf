@@ -15,9 +15,11 @@ resource "aws_iam_role_policy" "read_table" {
         "dynamodb:BatchGetItem",
         "dynamodb:GetItem",
         "dynamodb:Query",
-        "dynamodb:Scan"
+        "dynamodb:Scan",
+        "dynamodb:ListTables",
+        "dynamodb:Describe*"
       ],
-      "Resource": "arn:aws:dynamodb:*:*:table/${var.table_name}"
+      "Resource": "arn:aws:dynamodb:*:*:table/${var.table_name}*"
     }
   ]
 }
@@ -40,9 +42,9 @@ resource "aws_iam_role_policy" "write_table" {
       "Action": [
         "dynamodb:BatchWriteItem",
         "dynamodb:PutItem",
-        "dynamodb:UpdateItem"
+        "dynamodb:Update*",
       ],
-      "Resource": "arn:aws:dynamodb:*:*:table/${var.table_name}"
+      "Resource": "arn:aws:dynamodb:*:*:table/${var.table_name}*"
     }
   ]
 }
