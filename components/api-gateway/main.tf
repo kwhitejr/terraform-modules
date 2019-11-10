@@ -10,20 +10,20 @@ resource "aws_api_gateway_resource" "domain" {
 }
 
 resource "aws_api_gateway_resource" "resource" {
-  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
-  parent_id   = "${aws_api_gateway_resource.domain.id}"
-  path_part   = "${var.service_resource}"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_resource.domain.id
+  path_part   = var.service_resource
 }
 
 resource "aws_api_gateway_resource" "version" {
-  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
-  parent_id   = "${aws_api_gateway_resource.resource.id}"
-  path_part   = "${var.service_version}"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_resource.resource.id
+  path_part   = var.service_version
 }
 
 resource "aws_api_gateway_resource" "proxy" {
-  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
-  parent_id   = "${aws_api_gateway_resource.resource.id}"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_resource.resource.id
   path_part   = "{proxy+}"
 }
 
@@ -44,9 +44,9 @@ resource "aws_api_gateway_integration" "integration" {
     for m in var.methods : "${m.method}" => m
   }
 
-  rest_api_id             = "${aws_api_gateway_rest_api.rest_api.id}"
-  resource_id             = "${aws_api_gateway_resource.proxy.id}"
-  http_method             = "${aws_api_gateway_method.method[each.value.method].http_method}"
+  rest_api_id             = aws_api_gateway_rest_api.rest_api.id
+  resource_id             = aws_api_gateway_resource.proxy.id
+  http_method             = aws_api_gateway_method.method[each.value.method].http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${each.value.lambda_arn}/invocations"
@@ -62,8 +62,8 @@ resource "aws_api_gateway_deployment" "apig_deployment" {
     "aws_api_gateway_integration.integration"
   ]
 
-  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
-  stage_name  = "${var.api_stage_name}"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  stage_name  = var.api_stage_name
 
   lifecycle {
     create_before_destroy = true
@@ -71,11 +71,11 @@ resource "aws_api_gateway_deployment" "apig_deployment" {
 }
 
 resource "aws_lambda_permission" "apig_to_diagnostics_lambda" {
-  for_each = "${local.lambda_function_names}"
+  for_each = local.lambda_function_names
 
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = "${each.value}"
+  function_name = each.value
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${local.region}:${local.account_id}:${aws_api_gateway_rest_api.rest_api.id}/*/*/*" # TODO: lock this down
 }
