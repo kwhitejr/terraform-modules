@@ -7,3 +7,6 @@ output "lambda_function_name" {
 output "lambda_function_arn" {
   value = "${aws_lambda_function.function.arn}"
 }
+output "lambda_function_invocation_arn" {
+  value = "${aws_lambda_function.function.invoke_arn}"
+}
