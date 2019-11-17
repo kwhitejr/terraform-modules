@@ -42,7 +42,8 @@ resource "aws_iam_role_policy" "write_table" {
       "Action": [
         "dynamodb:BatchWriteItem",
         "dynamodb:PutItem",
-        "dynamodb:Update*"
+        "dynamodb:Update*",
+        "dynamodb:Delete*"
       ],
       "Resource": "arn:aws:dynamodb:*:*:table/${var.table_name}*"
     }
