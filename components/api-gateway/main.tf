@@ -5,9 +5,19 @@ resource "aws_api_gateway_rest_api" "rest_api" {
   binary_media_types = ["*/*"]
 }
 
+resource "aws_api_gateway_resource" "domain" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_rest_api.rest_api.root_resource_id
+  path_part   = var.domain
+}
+resource "aws_api_gateway_resource" "resource" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_resource.domain.id
+  path_part   = var.resource
+}
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.rest_api.id
-  parent_id   = aws_api_gateway_rest_api.rest_api.root_resource_id # aws_api_gateway_resource.version.id
+  parent_id   = aws_api_gateway_resource.resource.id # aws_api_gateway_resource.version.id
   path_part   = "{proxy+}"
 }
 

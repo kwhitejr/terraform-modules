@@ -12,6 +12,16 @@ variable "description" {
   type        = string
   default     = ""
 }
+variable "domain" {
+  description = "The service domain"
+  type        = string
+  default     = "domain"
+}
+variable "resource" {
+  description = "The service resource"
+  type        = string
+  default     = "resource"
+}
 variable "lambda_function_name" {
   description = "The integration lambda function name."
   type        = string
