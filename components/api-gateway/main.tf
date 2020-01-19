@@ -30,7 +30,7 @@ resource "aws_api_gateway_method" "method" {
 
 resource "aws_api_gateway_integration" "integration" {
   depends_on = [
-    "aws_lambda_permission.apig_to_lambda"
+    aws_lambda_permission.apig_to_lambda
   ]
 
   rest_api_id             = aws_api_gateway_rest_api.rest_api.id
@@ -43,9 +43,9 @@ resource "aws_api_gateway_integration" "integration" {
 
 resource "aws_api_gateway_deployment" "apig_deployment" {
   depends_on = [
-    "aws_api_gateway_resource.proxy",
-    "aws_api_gateway_method.method",
-    "aws_api_gateway_integration.integration"
+    aws_api_gateway_resource.proxy,
+    aws_api_gateway_method.method,
+    aws_api_gateway_integration.integration
   ]
 
   rest_api_id = aws_api_gateway_rest_api.rest_api.id

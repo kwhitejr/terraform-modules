@@ -2,7 +2,7 @@ resource "aws_iam_role_policy" "read_table" {
   count = var.can_read_table ? 1 : 0
 
   name = "read_table"
-  role = "${var.iam_role_id}"
+  role = var.iam_role_id
 
   policy = <<EOF
 {
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "write_table" {
   count = var.can_write_table ? 1 : 0
 
   name = "write_table"
-  role = "${var.iam_role_id}"
+  role = var.iam_role_id
 
   policy = <<EOF
 {
@@ -56,7 +56,7 @@ resource "aws_iam_role_policy" "read_table_stream" {
   count = var.can_read_table_stream ? 1 : 0
 
   name = "read_table_stream"
-  role = "${var.iam_role_id}"
+  role = var.iam_role_id
 
   policy = <<EOF
 {

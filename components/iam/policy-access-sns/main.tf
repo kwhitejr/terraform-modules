@@ -2,7 +2,7 @@ resource "aws_iam_role_policy" "publish_sns" {
   count = var.can_publish_sns ? 1 : 0
 
   name = "publish_sns"
-  role = "${var.iam_role_id}"
+  role = var.iam_role_id
 
   policy = <<EOF
 {
@@ -25,7 +25,7 @@ resource "aws_iam_role_policy" "subscribe_sns" {
   count = var.can_subscribe_sns ? 1 : 0
 
   name = "subscribe_sns"
-  role = "${var.iam_role_id}"
+  role = var.iam_role_id
 
   policy = <<EOF
 {
