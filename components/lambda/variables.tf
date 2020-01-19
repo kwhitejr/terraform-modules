@@ -43,6 +43,16 @@ variable "timeout" {
   description = "Lambda timeout in seconds"
   default     = 10
 }
+variable "vpc_subnet_ids" {
+  type        = list(string)
+  default     = null
+  description = ""
+}
+variable "vpc_security_group_ids" {
+  type        = list(string)
+  default     = null
+  description = ""
+}
 variable "env_vars" {
   type        = map(string)
   default     = {}
